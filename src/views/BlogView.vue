@@ -1,9 +1,9 @@
 <template lang="">
   <Suspense>
     <template #default>
-      <div class="flex ">
+      <div class="flex">
         <SideNav @toggle="togglePost"/>
-        <div class='mx-auto  col-span-2 grid gap-4 grid-cols-1'>
+        <div class='mx-auto  col-span-2 grid gap-5 grid-cols-1'>
           <BlogCard
             v-for="blog in blogs"
             :key="blog._id"
@@ -53,7 +53,7 @@ onMounted(async () => {
 });
 
 const previewContent = ((content) => {
-  return content.substr(0, 120) + '...'
+  return content.substr(0, 200) + '...'
 })
 
 const togglePost = () => {

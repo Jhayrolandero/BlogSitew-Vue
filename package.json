@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^40.2.0",
+    "@ckeditor/ckeditor5-ckbox": "^40.2.0",
+    "@ckeditor/ckeditor5-vue": "^5.1.0",
     "axios": "^1.6.3",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"

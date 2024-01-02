@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import BlogView from "../views/BlogView.vue";
 import AuthView from "../views/AuthView.vue";
 import BlogDetail from "../views/blog/BlogDetail.vue";
+import EditorView from "../views/Editor.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: "/auth",
       name: "auth",
       component: AuthView,
+    },
+    {
+      path: "/edit",
+      name: "edit",
+      component: EditorView,
     },
   ],
 });

@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="text-black">
+    <div class="text-black container">
         <img class="aspect-video" v-if="blog.image" :src="`data:image/png;base64,${blog.image}`" alt="">
         <h1>{{ blog.title }}</h1>
         <small>By: {{ blog.author }}</small>
