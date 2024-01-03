@@ -1,5 +1,13 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>{{ sample }}</h1>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const sample = ref('<h1>Holy Moly</h1>')
+
+
+</script>
