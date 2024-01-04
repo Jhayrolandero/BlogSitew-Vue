@@ -1,33 +1,40 @@
 <template>
-    <div class="container bg-black p-3 mt-3 rounded-md">
+    <div class="container bg-white p-3 mt-3 rounded-md">
         <form action="" method="POST" enctype="multipart/form-data">
             <div class="flex flex-col gap-4">
-                <input class="bg-black p-3 border-b-2 border-orange text-orange" type="text" placeholder="Title"
-                    v-model="title" />
-                <PictureInput class="text-orange bg-black" ref="pictureInput" accept="image/jpeg,image/png" size="10"
+                <input class="bg-transparent p-3 border-b-2 border-black text-black placeholder:text-gray-400 placeholder:italic
+                    focus:outline-none" type="text" placeholder="Title" v-model="title" />
+                <PictureInput class="text-black bg-black" ref="pictureInput" accept="image/jpeg,image/png" size="10"
                     button-class="btn" :crop="false" height="300" :hideChangeButton="true" :custom-strings="{
                         upload: '<h1>Bummer!</h1>',
                         drag: 'Thumbnail'
-                    }" @change="onChange" id="thumbnail">
+                    }" id="thumbnail">
                 </PictureInput>
                 <ckeditor class="h-100" :editor="ClassicEditor" v-model="editorData" :config="editorConfig"></ckeditor>
-                <button class="bg-black text-orange text-lg p-2">Upload</button>
+                <button type="button"
+                    class="bg-transparent text-black text-lg p-2 font-bold w-full border-t-2 border-t-black border-x-none"
+                    @click="addBlog">Upload</button>
             </div>
         </form>
     </div>
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref } from 'vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios';
 import PictureInput from 'vue-picture-input'
 
+// API endpoint
 const url = "http://localhost:3000/sample";
 
-const pictureInput = ref('')
-const editorData = ref('<p>Say Hello World!</p>')
-const inputText = ref('')
+// Data
+const title = ref('')
+const author = ref('Me')
+const pictureInput = ref(null)
+const editorData = ref('<blockquote><ol><li>Say Hello World!</li></ol></blockquote><p>&nbsp;</p><p>&nbsp;</p><h1>&nbsp;</h1><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>')
+
+// CKEditor Config for toolbar
 const editorConfig = ref({
     toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
     heading: {
@@ -43,8 +50,14 @@ const editorConfig = ref({
 async function addBlog() {
     try {
         const res = await axios.post(url, {
-            editorData: editorData.value,
-            inputText: inputText.value
+            title: title.value,
+            author: author.value,
+            content: editorData.value,
+            image: pictureInput.value.file
+        }, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
         })
 
         console.log(res.data.text)
@@ -52,5 +65,4 @@ async function addBlog() {
         console.log(err)
     }
 }
-
 </script>

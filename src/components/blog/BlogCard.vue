@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="max-w-3xl bg-white border-s-4 border-1 border-rose-600 border-s-rose-600  border-solid rounded-r-md shadow-xl">
+    <div class="max-w-3xl bg-white border-s-4 border-1 border-rose-600 border-s-orange  border-solid rounded-r-md shadow-xl">
       <div class="grid grid-cols-3">
         <div>
           <img v-if="image" class="object-cover" :src="`data:image/png;base64,${image}`" alt="">

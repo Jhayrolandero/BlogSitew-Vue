@@ -1,7 +1,7 @@
 <template lang="">
-    <div class="text-black container">
+    <div class="text-black container bg-white p-3 mt-2 rounded-lg shadow-md">
         <img class="aspect-video" v-if="blog.image" :src="`data:image/png;base64,${blog.image}`" alt="">
-        <h1>{{ blog.title }}</h1>
+        <p class="text-4xl">{{ blog.title }}</p>
         <small>By: {{ blog.author }}</small>
         <p>{{ blog.content }}</p>
     </div>
