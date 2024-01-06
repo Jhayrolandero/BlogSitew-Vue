@@ -1,13 +1,22 @@
 <template>
   <div class="about">
-    <h1>{{ sample }}</h1>
+
+    <div class="bg-black">
+      <div v-for="blog in sample.blogs">
+
+        <h1>{{ blog.title }}</h1>
+        <p>{{ blog.content }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useBlogStore } from '../stores/BlogStore'
 
-const sample = ref('<h1>Holy Moly</h1>')
+
+const sample = useBlogStore()
 
 
 </script>

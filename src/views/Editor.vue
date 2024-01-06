@@ -21,18 +21,21 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useBlogStore } from '../stores/BlogStore';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import axios from 'axios';
 import PictureInput from 'vue-picture-input'
 
-// API endpoint
-const url = "http://localhost:3000/sample";
 
 // Data
-const title = ref('')
+const title = ref('Untitled Blog')
 const author = ref('Me')
 const pictureInput = ref(null)
 const editorData = ref('<blockquote><ol><li>Say Hello World!</li></ol></blockquote><p>&nbsp;</p><p>&nbsp;</p><h1>&nbsp;</h1><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>')
+
+
+// Blog store
+const blogStore = useBlogStore()
+
 
 // CKEditor Config for toolbar
 const editorConfig = ref({
@@ -47,22 +50,14 @@ const editorConfig = ref({
 })
 
 
-async function addBlog() {
-    try {
-        const res = await axios.post(url, {
-            title: title.value,
-            author: author.value,
-            content: editorData.value,
-            image: pictureInput.value.file
-        }, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-
-        console.log(res.data.text)
-    } catch (err) {
-        console.log(err)
+const addBlog = () => {
+    const blog = {
+        title: title.value,
+        author: author.value,
+        content: editorData.value,
+        image: pictureInput.value.file
     }
+    blogStore.addBlogs(blog)
 }
 </script>
+

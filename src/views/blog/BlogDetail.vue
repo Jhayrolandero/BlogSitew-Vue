@@ -1,50 +1,28 @@
 <template lang="">
-    <div class="text-black container bg-white p-3 mt-2 rounded-lg shadow-md">
-        <img class="aspect-video" v-if="blog.image" :src="`data:image/png;base64,${blog.image}`" alt="">
-        <p class="text-4xl">{{ blog.title }}</p>
-        <small>By: {{ blog.author }}</small>
-        <p>{{ blog.content }}</p>
+    <div class="flex flex-col  text-black container bg-white p-3 mt-2 rounded-lg shadow-md">
+        <div class="flex justify-center min-h-60">
+            <img class="aspect-video" v-if="blogStore.blogDetail.image" :src="`data:image/png;base64,${blogStore.blogDetail.image}`" alt="">
+        </div>
+        <p class="text-4xl">{{ blogStore.blogDetail.title }}</p>
+        <small>By: {{ blogStore.blogDetail.author }}</small>
+        <p v-html="blogStore.blogDetail.content"></p>
+        {{ blogStore.fetchBlog("65967ae1c722bb9fb2a65542") }}
+        <!-- {{ blogStore.blogs }} -->
     </div>
 </template>
 <script setup>
 import { useRoute } from 'vue-router'
-import { ref, onMounted, reactive } from "vue";
+import { onMounted } from "vue";
+import { useBlogStore } from '../../stores/BlogStore'
+
 
 const route = useRoute()
-const blog = reactive({
-    title: '',
-    content: '',
-    author: '',
-    image: ''
-});
 
-onMounted(() => {
-    getBlog(route)
-})
+// Blog store
+const blogStore = useBlogStore()
 
-const getBlog = async (route) => {
+// onMounted(() => {
+//     blogStore.getBlog(route)
+// })
 
-
-
-    await fetch(`http://localhost:3000/blogs/${route.params.id}`)
-        .then(result => result.json())
-        .then(data => {
-
-            console.log()
-            const blogDetail = data.result
-
-            console.log(blogDetail)
-            blog.title = blogDetail.title;
-            blog.content = blogDetail.content;
-            blog.author = blogDetail.author;
-            blog.image = blogDetail.image;
-        })
-        .catch(err => console.log(err))
-
-}
 </script>
-<style scoped>
-h1 {
-    font-size: 2rem;
-}
-</style>

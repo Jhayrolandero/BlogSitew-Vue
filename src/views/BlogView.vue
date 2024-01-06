@@ -5,7 +5,7 @@
         <SideNav @toggle="togglePost"/>
         <div class='mx-auto  col-span-2 grid gap-5 grid-cols-1'>
           <BlogCard
-            v-for="blog in blogs"
+            v-for="blog in blogStore.blogs"
             :key="blog._id"
             :title="blog.title"
             :content="previewContent(blog.content)"
@@ -30,46 +30,28 @@
     </template>
     <template #fallback>Loading....</template>
   </Suspense>
-
-
-    <button @click="togglePost" class="toggleBtn">+</button>
-    
 </template>
 <script setup>
-import { ref, onMounted, defineAsyncComponent } from "vue";
+
+import { onMounted, defineAsyncComponent } from "vue";
+
+// Components
 import SideNav from "../components/SideNav.vue";
-
-import axios from 'axios'
-
 import BlogCard from "@/components/blog/BlogCard.vue";
-import { getBlog } from "../composables/blog/getBlog";
 
-const blogs = ref([]);
-const showPost = ref(false)
-const url = ref('http://localhost:3000/blogs')
+import { useBlogStore } from '../stores/BlogStore'
 
+// Blog store
+const blogStore = useBlogStore()
+
+// Mounted
 onMounted(async () => {
-  fetchBlogs()
+  blogStore.fetchBlogs()
 });
 
 const previewContent = ((content) => {
   return content.substr(0, 200) + '...'
 })
-
-const togglePost = () => {
-  showPost.value = !showPost.value
-}
-
-
-const fetchBlogs = async () => {
-  try {
-    const res = await axios.get(url.value)
-    blogs.value = res.data.result
-    console.log(blogs.value)
-  } catch (err) {
-    console.log(err)
-  }
-}
 
 const InputBlog = defineAsyncComponent(() =>
   import("../components/blog/InputBlog.vue"),
